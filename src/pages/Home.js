@@ -1,6 +1,6 @@
 import React from 'react';
-import Search from '../components/Search';
 import { Link } from 'react-router-dom';
+import Search from '../components/Search';
 
 class Home extends React.Component {
   render() {
