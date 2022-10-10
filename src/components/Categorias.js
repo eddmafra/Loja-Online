@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 
 class Categorias extends React.Component {
   render() {
-    const { categoryID, name } = this.props;
+    const { categoryID, name, handleChecked } = this.props;
     return (
       <aside>
-        <label data-testid="category" htmlFor={ categoryID }>
+        <button
+          data-testid="category"
+          name="category"
+          type="button"
+          id={ categoryID }
+          onClick={ handleChecked }
+        >
           {name}
-          <input
-            name="category"
-            type="radio"
-            id={ categoryID }
-            value={ name }
-          />
-        </label>
+        </button>
       </aside>
     );
   }
@@ -24,4 +24,5 @@ export default Categorias;
 Categorias.propTypes = {
   categoryID: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  handleChecked: PropTypes.func.isRequired,
 };

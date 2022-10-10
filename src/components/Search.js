@@ -1,36 +1,18 @@
 import React from 'react';
-import * as api from '../services/api';
+import PropTypes from 'prop-types';
 
 class Search extends React.Component {
   state = {
     searchValue: '',
-    resultado: false,
-    result: [],
   };
 
   handleChange = (event) => {
     this.setState({ searchValue: event.target.value });
   };
 
-  handleSearch = async () => {
-    const { searchValue } = this.state;
-    const result = await api.getProductByQuery(searchValue);
-    console.log(result.results);
-    const { results } = result;
-    if (results.filter((el) => el.title.includes(searchValue))) {
-      this.setState({
-        result: results,
-        resultado: true,
-      });
-    } else {
-      this.setState({
-        resultado: false,
-      });
-    }
-  };
-
   render() {
-    const { searchValue, resultado, result } = this.state;
+    const { searchValue } = this.state;
+    const { handleSearch } = this.props;
     return (
       <>
         <input
@@ -40,27 +22,20 @@ class Search extends React.Component {
           value={ searchValue }
           onChange={ this.handleChange }
         />
-        <input
+        <button
           data-testid="query-button"
           type="button"
-          onClick={ this.handleSearch }
-        />
-        {!resultado ? 'Nenhum produto foi encontrado' : (
-          result.map((item) => (
-            <div
-              key={ item.id }
-              data-testid="product"
-            >
-              <p>{item.title}</p>
-              <img src={ item.thumbnail } alt={ item.title } />
-              <p>
-                {`R$: ${item.price}`}
-              </p>
-            </div>))
-        )}
+          onClick={ handleSearch }
+        >
+          Buscar
+        </button>
       </>
     );
   }
 }
+
+Search.propTypes = {
+  handleSearch: PropTypes.func.isRequired,
+};
 
 export default Search;
