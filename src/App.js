@@ -3,11 +3,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
 import './App.css';
-import * as api from './services/api';
 
 class App extends React.Component {
   render() {
-    api.getCategories();
     return (
       <BrowserRouter>
         <Switch>
