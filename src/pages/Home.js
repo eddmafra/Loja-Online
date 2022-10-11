@@ -84,6 +84,14 @@ class Home extends React.Component {
               <p>
                 {`R$: ${item.price}`}
               </p>
+              <button type="button">
+                <Link
+                  data-testid="product-detail-link"
+                  to={ `/Details/${item.id}` }
+                >
+                  Mais detalhes
+                </Link>
+              </button>
             </div>))
         )}
       </div>
