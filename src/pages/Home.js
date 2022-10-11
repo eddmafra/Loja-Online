@@ -11,6 +11,7 @@ class Home extends React.Component {
       listCategories: [],
       result: [],
       resultado: false,
+      listCart: [],
     };
   }
 
@@ -25,9 +26,17 @@ class Home extends React.Component {
     });
   };
 
+  addCart = (item) => {
+    this.setState((prevState) => (
+      { listCart: [...prevState.listCart, item] }), () => {
+      const { listCart } = this.state;
+      localStorage.setItem('listCart', JSON.stringify(listCart));
+    });
+  };
+
   handleChecked = async ({ target }) => {
     const list = await api.getProductByCategoryId(target.id);
-    console.log(list.results);
+    // console.log(list.results);
     const { results } = list;
     this.setState({
       result: results,
@@ -38,7 +47,7 @@ class Home extends React.Component {
   handleSearch = async () => {
     const { searchValue } = this.state;
     const result = await api.getProductByQuery(searchValue);
-    console.log(result.results);
+    // console.log(result.results);
     const { results } = result;
     if (results.filter((el) => el.title.includes(searchValue))) {
       this.setState({
@@ -59,10 +68,13 @@ class Home extends React.Component {
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
-        <Link to="/cart" data-testid="shopping-cart-button" />
-        <button type="button">
-          Carrinho de Compras
-        </button>
+        <Link to="/cart" data-testid="shopping-cart-button">
+          <button
+            type="button"
+          >
+            Carrinho de Compras
+          </button>
+        </Link>
         <Search
           handleSearch={ this.handleSearch }
         />
@@ -91,6 +103,14 @@ class Home extends React.Component {
                 >
                   Mais detalhes
                 </Link>
+              </button>
+
+              <button
+                data-testid="product-add-to-cart"
+                type="button"
+                onClick={ () => this.addCart(item) }
+              >
+                Carrinho de Compras
               </button>
             </div>))
         )}
