@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 class Cart extends React.Component {
   state = {
-    products: [],
+    products: null,
   };
 
   componentDidMount() {
@@ -20,10 +20,10 @@ class Cart extends React.Component {
       <>
         <Link to="/">Home</Link>
         {
-          products.length === 0
+          products === null
             && <p data-testid="shopping-cart-empty-message"> Seu carrinho está vazio</p>
         }
-        { products.length > 0 && (
+        { products && (
           products.map((item, index) => (
             <section key={ index }>
               <p data-testid="shopping-cart-product-name">{item.title}</p>
