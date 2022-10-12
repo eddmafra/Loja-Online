@@ -7,7 +7,8 @@ class Product extends React.Component {
     super();
 
     this.state = {
-      product: {},
+      product: [],
+      listCart: [],
     };
   }
 
@@ -16,6 +17,14 @@ class Product extends React.Component {
     const response = await getProductById(id);
     this.setState({ product: response });
   }
+
+  addCart = (item) => {
+    this.setState((prevState) => (
+      { listCart: [...prevState.listCart, item] }), () => {
+      const { listCart } = this.state;
+      localStorage.setItem('listCart', JSON.stringify(listCart));
+    });
+  };
 
   handleButton = async () => {
     const { history: cart } = this.props;
@@ -36,10 +45,17 @@ class Product extends React.Component {
           <p data-testid="product-detail-price">{ product.price }</p>
           <button
             type="button"
-            data-testid="shopping-cart-button"
-            onClick={ this.handleButton }
+            data-testid="product-detail-add-to-cart"
+            onClick={ () => this.addCart(product) }
           >
-            Adcionar ao carrinho
+            Adicionar ao carrinho
+          </button>
+          <button
+            type="button"
+            onClick={ this.handleButton }
+            data-testid="shopping-cart-button"
+          >
+            Carrinho de compras
           </button>
         </div>
       );
