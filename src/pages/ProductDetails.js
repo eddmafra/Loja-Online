@@ -12,10 +12,11 @@ class Product extends React.Component {
     super();
 
     this.state = {
-      product: {},
+      product: [],
       ...localSave,
       evaluation: [],
       validate: true,
+      listCart: [],
     };
   }
 
@@ -74,11 +75,20 @@ class Product extends React.Component {
     }
   };
 
+  addCart = (item) => {
+    this.setState((prevState) => (
+      { listCart: [...prevState.listCart, item] }), () => {
+      const { listCart } = this.state;
+      localStorage.setItem('listCart', JSON.stringify(listCart));
+    });
+  };
+
   render() {
     const { product, validate, evaluation, email, text } = this.state;
     if (product) {
       return (
         <>
+
           <div>
             <p data-testid="product-detail-name">{ product.title }</p>
             <img
@@ -89,10 +99,17 @@ class Product extends React.Component {
             <p data-testid="product-detail-price">{ product.price }</p>
             <button
               type="button"
-              data-testid="shopping-cart-button"
-              onClick={ this.handleButton }
+              data-testid="product-detail-add-to-cart"
+              onClick={ () => this.addCart(product) }
             >
-              Adcionar ao carrinho
+              Adicionar ao carrinho
+            </button>
+            <button
+              type="button"
+              onClick={ this.handleButton }
+              data-testid="shopping-cart-button"
+            >
+              Carrinho de compras
             </button>
           </div>
           <form>
