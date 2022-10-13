@@ -18,17 +18,17 @@ class Product extends React.Component {
     this.setState({ product: response });
   }
 
-  handleButton = async () => {
-    const { history: cart } = this.props;
-    cart.push('/cart');
-  };
-
   addCart = (item) => {
     this.setState((prevState) => (
       { listCart: [...prevState.listCart, item] }), () => {
       const { listCart } = this.state;
       localStorage.setItem('listCart', JSON.stringify(listCart));
     });
+  };
+
+  handleButton = async () => {
+    const { history: cart } = this.props;
+    cart.push('/cart');
   };
 
   render() {
