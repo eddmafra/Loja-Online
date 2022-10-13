@@ -19,14 +19,14 @@ class Product extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const getLocal = localStorage.getItem(id);
-    getProductById(id)
-      .then((data) => this.setState({
-        product: data,
-        evaluation: ((getLocal) ? JSON.parse(getLocal) : []),
-      }));
+    const response = await getProductById(id);
+    this.setState({
+      product: response,
+      evaluation: ((getLocal) ? JSON.parse(getLocal) : []),
+    });
   }
 
   handleButton = async () => {
@@ -48,7 +48,8 @@ class Product extends React.Component {
     });
   };
 
-  submitForms = () => {
+  submitForms = (e) => {
+    e.preventDefault();
     const { match: { params: { id } } } = this.props;
     const { email, rating, text } = this.state;
     const emailRegex = /^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/;
@@ -58,10 +59,13 @@ class Product extends React.Component {
       const newEvaluation = { email, rating, text };
       localStorage
         .setItem(id, JSON.stringify([...prevEvaluation, newEvaluation]));
+      const evaluationList = localStorage.getItem(id);
       this.setState({
-        ...localSave,
+        email: '',
+        rating: 0,
+        text: '',
         validate: true,
-        evaluation: this.loadEvaluation(),
+        evaluation: JSON.parse(evaluationList),
       });
     } else {
       this.setState({
@@ -71,7 +75,7 @@ class Product extends React.Component {
   };
 
   render() {
-    const { product, validate, evaluation } = this.state;
+    const { product, validate, evaluation, email, text } = this.state;
     if (product) {
       return (
         <>
@@ -91,115 +95,72 @@ class Product extends React.Component {
               Adcionar ao carrinho
             </button>
           </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-          <div>
-            <form>
+          <form>
+            <label
+              htmlFor="email"
+            >
+              <input
+                value={ email }
+                type="text"
+                name="email"
+                id="emailEvaluation"
+                placeholder="E-mail"
+                onChange={ this.handleChange }
+                data-testid="product-detail-email"
+              />
+            </label>
+            {['1', '2', '3', '4', '5'].map((_, i) => (
               <label
-                htmlFor="emailEvaluation"
-=======
-          <div>
-            <form>
-              <label
-                htmlFor="email"
->>>>>>> f519e33 (requisito 11 - feito para pull)
+                data-testid={ `${i + 1}-rating` }
+                htmlFor={ `rate${i}` }
+                key={ i }
               >
                 <input
-                  data-testid="product-detail-email"
-                  type="text"
-                  name="email"
-<<<<<<< HEAD
-                  id="emailEvaluation"
-=======
-                  id="email"
->>>>>>> f519e33 (requisito 11 - feito para pull)
-                  placeholder="E-mail"
-                  onChange={ this.handleChange }
+                  className="radioStar"
+                  type="radio"
+                  name="rating"
+                  id={ `rate${i}` }
+                  value={ i + 1 }
+                  onClick={ this.handleChange }
                 />
-              </label>
-              {[1, 2, 'foo', 'bar', 'baz'].map((_, i) => (
-<<<<<<< HEAD
-                <label data-testid={ `${i + 1}-rating` } htmlFor={ `rate${i}` } key={ i }>
-                  <input
-=======
-                <label
-                  htmlFor={ `rate${i}` }
-                  key={ i }
-                >
-                  <input
-                    data-testid={ `${i + 1}-rating` }
->>>>>>> f519e33 (requisito 11 - feito para pull)
-                    className="radioStar"
-                    type="radio"
-                    name="rating"
-                    id={ `rate${i}` }
-                    value={ i + 1 }
-                    onClick={ this.handleChange }
-                  />
-                  { i + 1}
-                </label>))}
-              <textarea
-                data-testid="product-detail-evaluation"
-                name="text"
-                id=""
-                cols="30"
-                rows="10"
-                placeholder="Mensagem (opcional)"
-                onChange={ this.handleChange }
-              />
-              <button
-                data-testid="submit-review-btn"
-                type="submit"
-                onClick={ this.submitForms }
-              >
-                Avaliar
-              </button>
-            </form>
-            {!validate && <p data-testid="error-msg">Campos inválidos</p>}
-            <ul>
-<<<<<<< HEAD
-              { evaluation && evaluation.map((e, i) => (
-                <li className="evaluation" key={ i }>
-                  <p data-testid="review-card-email">{e.email}</p>
-                  <p data-testid="review-card-rating">
-                    Nota:
-                    {' '}
-                    {e.rating}
-                  </p>
-                  <p data-testid="review-card-evaluation">
-                    Comentário:
-                    {' '}
-                    {e.text}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-=======
-          <Form productId={ product.id } />
->>>>>>> d2f2487 (Req 11 - commit para pull)
-=======
-              {console.log(evaluation)}
-              {
-                evaluation && evaluation.map((e, i) => (
-                  <li className="evaluation" key={ i }>
-                    <p data-testid="review-card-email">{e.email}</p>
-                    <p data-testid="review-card-rating">
-                      Nota:
-                      {' '}
-                      {e.rating}
-                    </p>
-                    <p data-testid="review-card-evaluation">
-                      Comentário:
-                      {' '}
-                      {e.text}
-                    </p>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
->>>>>>> f519e33 (requisito 11 - feito para pull)
+                { i + 1}
+              </label>))}
+            <textarea
+              name="text"
+              id="description"
+              cols="30"
+              rows="10"
+              placeholder="Mensagem (opcional)"
+              onChange={ this.handleChange }
+              data-testid="product-detail-evaluation"
+              value={ text }
+            />
+            <button
+              data-testid="submit-review-btn"
+              type="submit"
+              onClick={ this.submitForms }
+            >
+              Avaliar
+            </button>
+          </form>
+          {!validate && <p data-testid="error-msg">Campos inválidos</p>}
+          <ul>
+            { evaluation.map((e, i) => (
+              <li className="evaluation" key={ i }>
+                <p data-testid="review-card-email">{e.email}</p>
+                <p data-testid="review-card-rating">
+                  Nota:
+                  {' '}
+                  {e.rating}
+                </p>
+                <p data-testid="review-card-evaluation">
+                  Comentário:
+                  {' '}
+                  {e.text}
+                </p>
+              </li>
+            ))}
+          </ul>
         </>
       );
     }
