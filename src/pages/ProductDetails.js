@@ -92,23 +92,43 @@ class Product extends React.Component {
             </button>
           </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <div>
             <form>
               <label
                 htmlFor="emailEvaluation"
+=======
+          <div>
+            <form>
+              <label
+                htmlFor="email"
+>>>>>>> f519e33 (requisito 11 - feito para pull)
               >
                 <input
                   data-testid="product-detail-email"
                   type="text"
                   name="email"
+<<<<<<< HEAD
                   id="emailEvaluation"
+=======
+                  id="email"
+>>>>>>> f519e33 (requisito 11 - feito para pull)
                   placeholder="E-mail"
                   onChange={ this.handleChange }
                 />
               </label>
               {[1, 2, 'foo', 'bar', 'baz'].map((_, i) => (
+<<<<<<< HEAD
                 <label data-testid={ `${i + 1}-rating` } htmlFor={ `rate${i}` } key={ i }>
                   <input
+=======
+                <label
+                  htmlFor={ `rate${i}` }
+                  key={ i }
+                >
+                  <input
+                    data-testid={ `${i + 1}-rating` }
+>>>>>>> f519e33 (requisito 11 - feito para pull)
                     className="radioStar"
                     type="radio"
                     name="rating"
@@ -137,6 +157,7 @@ class Product extends React.Component {
             </form>
             {!validate && <p data-testid="error-msg">Campos inválidos</p>}
             <ul>
+<<<<<<< HEAD
               { evaluation && evaluation.map((e, i) => (
                 <li className="evaluation" key={ i }>
                   <p data-testid="review-card-email">{e.email}</p>
@@ -157,6 +178,28 @@ class Product extends React.Component {
 =======
           <Form productId={ product.id } />
 >>>>>>> d2f2487 (Req 11 - commit para pull)
+=======
+              {console.log(evaluation)}
+              {
+                evaluation && evaluation.map((e, i) => (
+                  <li className="evaluation" key={ i }>
+                    <p data-testid="review-card-email">{e.email}</p>
+                    <p data-testid="review-card-rating">
+                      Nota:
+                      {' '}
+                      {e.rating}
+                    </p>
+                    <p data-testid="review-card-evaluation">
+                      Comentário:
+                      {' '}
+                      {e.text}
+                    </p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+>>>>>>> f519e33 (requisito 11 - feito para pull)
         </>
       );
     }
