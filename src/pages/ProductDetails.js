@@ -91,6 +91,7 @@ class Product extends React.Component {
               Adcionar ao carrinho
             </button>
           </div>
+<<<<<<< HEAD
           <div>
             <form>
               <label
@@ -153,6 +154,9 @@ class Product extends React.Component {
               ))}
             </ul>
           </div>
+=======
+          <Form productId={ product.id } />
+>>>>>>> d2f2487 (Req 11 - commit para pull)
         </>
       );
     }
