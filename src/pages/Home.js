@@ -36,7 +36,6 @@ class Home extends React.Component {
 
   handleChecked = async ({ target }) => {
     const list = await api.getProductByCategoryId(target.id);
-    // console.log(list.results);
     const { results } = list;
     this.setState({
       result: results,
@@ -47,7 +46,6 @@ class Home extends React.Component {
   handleSearch = async () => {
     const { searchValue } = this.state;
     const result = await api.getProductByQuery(searchValue);
-    // console.log(result.results);
     const { results } = result;
     if (results.filter((el) => el.title.includes(searchValue))) {
       this.setState({
@@ -104,7 +102,6 @@ class Home extends React.Component {
                   Mais detalhes
                 </Link>
               </button>
-
               <button
                 data-testid="product-add-to-cart"
                 type="button"
