@@ -72,7 +72,7 @@ class Home extends React.Component {
           <button
             type="button"
           >
-            c
+            Carrinho de Compras
           </button>
         </Link>
         <Search
