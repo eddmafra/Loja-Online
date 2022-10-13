@@ -166,13 +166,9 @@ class Product extends React.Component {
               <li className="evaluation" key={ i }>
                 <p data-testid="review-card-email">{e.email}</p>
                 <p data-testid="review-card-rating">
-                  Nota:
-                  {' '}
                   {e.rating}
                 </p>
                 <p data-testid="review-card-evaluation">
-                  Comentário:
-                  {' '}
                   {e.text}
                 </p>
               </li>
