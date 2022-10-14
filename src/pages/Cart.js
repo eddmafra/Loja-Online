@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Cart extends React.Component {
@@ -54,6 +55,11 @@ class Cart extends React.Component {
     });
   };
 
+  handleButton = async () => {
+    const { history: checkout } = this.props;
+    checkout.push('/checkout');
+  };
+
   render() {
     const { products } = this.state;
     return (
@@ -98,10 +104,23 @@ class Cart extends React.Component {
               </button>
             </section>))
         )}
+        <button
+          type="button"
+          data-testid="checkout-products"
+          onClick={ this.handleButton }
+        >
+          Finalizar Compra
+        </button>
       </>
 
     );
   }
 }
+
+Cart.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Cart;
