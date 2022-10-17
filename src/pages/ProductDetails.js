@@ -96,7 +96,7 @@ class Product extends React.Component {
               src={ product.thumbnail }
               alt={ product.title }
             />
-            <p data-testid="product-detail-price">{ product.price }</p>
+            <p data-testid="product-detail-price">{product.price}</p>
             <button
               type="button"
               data-testid="product-detail-add-to-cart"
