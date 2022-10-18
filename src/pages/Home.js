@@ -109,6 +109,8 @@ class Home extends React.Component {
               >
                 Carrinho de Compras
               </button>
+              {item.shipping.free_shipping && (
+                <p data-testid="free-shipping">Free Shipping</p>)}
             </div>))
         )}
       </div>
