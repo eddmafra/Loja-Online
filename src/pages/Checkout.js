@@ -30,7 +30,6 @@ class Checkout extends React.Component {
     const { history } = this.props;
     const valid = this.formValidation();
     if (valid) {
-      // localStorage.setItem('listCart', JSON.stringify([]));
       localStorage.clear();
       history.push('/');
     } else {

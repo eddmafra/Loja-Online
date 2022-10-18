@@ -30,15 +30,15 @@ class Product extends React.Component {
     });
   }
 
-  handleButton = async () => {
-    const { history: cart } = this.props;
-    cart.push('/cart');
-  };
-
   loadEvaluation = () => {
     const { match: { params: { id } } } = this.props;
     const getEvaluation = localStorage.getItem(id);
     return (getEvaluation) ? JSON.parse(getEvaluation) : [];
+  };
+
+  handleButton = async () => {
+    const { history: cart } = this.props;
+    cart.push('/cart');
   };
 
   handleChange = ({ target }) => {
