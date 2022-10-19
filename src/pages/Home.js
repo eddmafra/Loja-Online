@@ -12,12 +12,25 @@ class Home extends React.Component {
       result: [],
       resultado: false,
       listCart: [],
+      cartSize: 0,
     };
   }
 
   componentDidMount() {
     this.fetchCategories();
+    this.updateStorage();
+    this.CartSize();
   }
+
+  updateStorage = () => {
+    const listProducts = localStorage.getItem('listCart');
+    if (listProducts) {
+      const list = JSON.parse(listProducts);
+      this.setState({
+        listCart: list,
+      });
+    }
+  };
 
   fetchCategories = async () => {
     const categorias = await api.getCategories();
@@ -26,11 +39,31 @@ class Home extends React.Component {
     });
   };
 
-  addCart = (item) => {
-    this.setState((prevState) => (
-      { listCart: [...prevState.listCart, item] }), () => {
+  CartSize = () => {
+    const local = localStorage.getItem('listCart');
+    if (local) {
+      const quantity = JSON.parse(local).length;
+      this.setState({
+        cartSize: quantity,
+      });
+    }
+  };
+
+  // addCart = (item) => {
+  //   this.setState((prevState) => (
+  //     { listCart: [...prevState.listCart, item] }), () => {
+  //     const { listCart } = this.state;
+  //     localStorage.setItem('listCart', JSON.stringify(listCart));
+  //   });
+  // };
+
+  updateCart = ({ target: { id } }) => {
+    this.setState((prev) => ({
+      listCart: [...prev.listCart, JSON.parse(id)],
+    }), () => {
       const { listCart } = this.state;
-      localStorage.setItem('listCart', JSON.stringify(listCart));
+      window.localStorage.setItem('listCart', JSON.stringify(listCart));
+      this.CartSize();
     });
   };
 
@@ -60,7 +93,7 @@ class Home extends React.Component {
   };
 
   render() {
-    const { listCategories, result, resultado } = this.state;
+    const { listCategories, result, resultado, cartSize } = this.state;
     return (
       <div>
         <p data-testid="home-initial-message">
@@ -71,6 +104,7 @@ class Home extends React.Component {
             type="button"
           >
             Carrinho de Compras
+            <p data-testid="shopping-cart-size">{cartSize}</p>
           </button>
         </Link>
         <Search
@@ -105,7 +139,8 @@ class Home extends React.Component {
               <button
                 data-testid="product-add-to-cart"
                 type="button"
-                onClick={ () => this.addCart(item) }
+                id={ JSON.stringify(item) }
+                onClick={ this.updateCart }
               >
                 Carrinho de Compras
               </button>

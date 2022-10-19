@@ -16,7 +16,8 @@ class Product extends React.Component {
       ...localSave,
       evaluation: [],
       validate: true,
-      listCart: [],
+      // listCart: [],
+      cartSize: 0,
     };
   }
 
@@ -28,7 +29,30 @@ class Product extends React.Component {
       product: response,
       evaluation: ((getLocal) ? JSON.parse(getLocal) : []),
     });
+    this.CartSize();
   }
+
+  CartSize = () => {
+    const local = localStorage.getItem('listCart');
+    if (local) {
+      const quantity = JSON.parse(local).length;
+      this.setState({
+        cartSize: quantity,
+      });
+    }
+  };
+
+  addCart = () => {
+    const { product } = this.state;
+    const listProducts = localStorage.getItem('listCart');
+    if (listProducts) {
+      const list = JSON.parse(listProducts);
+      localStorage.setItem('listCart', JSON.stringify([...list, product]));
+    } else {
+      localStorage.setItem('listCart', JSON.stringify([product]));
+    }
+    this.CartSize();
+  };
 
   loadEvaluation = () => {
     const { match: { params: { id } } } = this.props;
@@ -75,20 +99,11 @@ class Product extends React.Component {
     }
   };
 
-  addCart = (item) => {
-    this.setState((prevState) => (
-      { listCart: [...prevState.listCart, item] }), () => {
-      const { listCart } = this.state;
-      localStorage.setItem('listCart', JSON.stringify(listCart));
-    });
-  };
-
   render() {
-    const { product, validate, evaluation, email, text } = this.state;
+    const { product, validate, evaluation, email, text, cartSize } = this.state;
     if (product) {
       return (
         <>
-
           <div>
             <p data-testid="product-detail-name">{ product.title }</p>
             <img
@@ -100,7 +115,7 @@ class Product extends React.Component {
             <button
               type="button"
               data-testid="product-detail-add-to-cart"
-              onClick={ () => this.addCart(product) }
+              onClick={ this.addCart }
             >
               Adicionar ao carrinho
             </button>
@@ -110,6 +125,7 @@ class Product extends React.Component {
               data-testid="shopping-cart-button"
             >
               Carrinho de compras
+              <p data-testid="shopping-cart-size">{cartSize}</p>
             </button>
           </div>
           <form>
