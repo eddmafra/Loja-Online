@@ -44,11 +44,8 @@ class Cart extends React.Component {
 
   increase = (id) => {
     const { products } = this.state;
-    console.log(products.available_quantity);
     const newCart = products.filter((elemento) => (elemento.id === id));
-    console.log(newCart[0].available_quantity);
     const carrinho = products.filter((elemento) => (elemento.id !== id));
-    console.log(carrinho.available_quantity);
     if (newCart.length < newCart[0].available_quantity) {
       const totalItens = [...carrinho, ...newCart, newCart[0]];
       localStorage.setItem('listCart', JSON.stringify(totalItens));
